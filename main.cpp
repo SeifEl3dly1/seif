@@ -1,11 +1,13 @@
 #include <iostream>
 using namespace std;
 
+// Character classes used to categorize input characters
 #define LETTER 0
 #define DIGIT 1
 #define UNKNOWN 99
 #define EOF_TOKEN -1
 
+// Token codes for different types of lexemes
 #define INT_LIT 10
 #define IDENT 11
 #define ASSIGN_OP 20
@@ -16,12 +18,16 @@ using namespace std;
 #define LEFT_PAREN 25
 #define RIGHT_PAREN 26
 #define SEMECOLON_OP 27
- char lexeme[100];
+
+// Global declarations
+char lexeme[100];
 char nextChar;
 int charClass;
 int lexLen;
 int token;
 int nextToken;
+
+// Adds current character to lexeme array
 void addChar()
 {
     if (lexLen < 98)
@@ -32,6 +38,8 @@ void addChar()
      cout << "Error - lexeme is too long" << endl;
     }
 }
+
+// Reads the next character and classifies it
 void getChar()
 {
     if (cin.get(nextChar)) {
@@ -45,12 +53,16 @@ void getChar()
         charClass = EOF_TOKEN;
     }
 }
+
+// Skips whitespace characters
 void getNonBlank()
 {
     while (isspace(nextChar)) {
         getChar();
     }
 }
+
+// Determines token for single-character operators and parentheses
 int lookup(char ch)
 {
     switch (ch) {
@@ -65,7 +77,10 @@ int lookup(char ch)
         default: addChar(); return EOF_TOKEN;
  }
 }
+
+// Lexical analyzer that returns tokens and builds lexemes
 int lex() {
+    // Initialize lexeme length
     lexLen = 0;
     getNonBlank();
     switch (charClass) {
@@ -98,7 +113,9 @@ int lex() {
     cout << "Next token is: " << nextToken << ", Next lexeme is " << lexeme << endl;
     return nextToken;
 }
+
 int main() {
+    // Start the lexical analysis
     getChar();
     do {
         lex();
